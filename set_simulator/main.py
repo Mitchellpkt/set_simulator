@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Tuple, Union
-from itertools import product
+from itertools import product, permutations
 import random
 
 # Define features of the deck, supports arbitrary number of dimensions and traits
@@ -25,7 +25,6 @@ def generate_deck(
     shuffle: bool = True,
     seed: int = 42,
 ) -> List[tuple]:
-
     # Use default features if none specified
     if feature_possibilities is None:
         feature_possibilities = standard_feature_possibilities
@@ -58,6 +57,20 @@ def is_valid_set(cards: List[Tuple[Any, ...]]) -> bool:
         len(cards),
     )  # read: must be all the same or all unique
     return all(len(set(g)) in allowed_unique_counts for g in grouped_features)
+
+
+def count_valid_sets(
+    cards: List[Tuple[Any, ...]], verbose: bool = True, set_size: int = 3
+) -> int:
+    if verbose:
+        print(f"Checking: {cards}")
+    found_matches: int = 0
+    for candidate in list(permutations(cards, r=set_size)):
+        if is_valid_set(candidate):  # noqa: general size accomodated
+            found_matches += 1
+            if verbose:
+                print(f"... #{found_matches+1}: {candidate}")
+    return found_matches
 
 
 if __name__ == "__main__":
