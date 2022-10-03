@@ -71,23 +71,3 @@ def count_valid_sets(
             if verbose:
                 print(f"... #{found_matches+1}: {candidate}")
     return found_matches
-
-
-if __name__ == "__main__":
-    # Define features of the deck, supports arbitrary number of dimensions and traits
-    feature_possibilities: Dict[str, Tuple[Any, ...]] = {
-        "number": (1, 2, 3),
-        "color": ("red", "green", "purple"),
-        "shading": ("open", "striped", "solid"),
-        "shape": ("diamond", "squiggle", "oval"),
-    }
-
-    # Optionally define an order, this is cosmetic only. If you don't care, you can set to None for automatic ordering
-    canonical_order: Tuple[str, str, str, str] = ("number", "color", "shading", "shape")
-
-    # Generate the deck
-    deck: List[Tuple[int, str, str, str]] = generate_deck(
-        feature_possibilities=feature_possibilities,
-        canonical_order=canonical_order,
-        shuffle=True,
-    )
